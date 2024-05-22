@@ -7,7 +7,7 @@ The IdentityX Face SDK is made up of the following core features:
 - Face Quality Analysis
 - Passive Liveness Detection
 - Eye Blink Detection
-- Head Movement Detection (head nod and shake)
+- Head Movement Detection (nod and shake)
 - Light Reflection Liveness Detection
 
 ## License
