@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LivenessAndQualityActivity">
+
+    <LinearLayout
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:filterTouchesWhenObscured="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/blinkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=" BLINK "
+            android:textColor="@color/colorDisabled" android:visibility="gone"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nodTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=" NOD "
+            android:textColor="@color/colorDisabled" android:visibility="gone"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/shakeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=" SHAKE "
+            android:textColor="@color/colorDisabled" android:visibility="gone"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/maskTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=" MASK "
+            android:textColor="@color/colorDisabled"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/status"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:background="@color/colorBackground">
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/trackerStatusButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:text="Tracking"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/qualityStatusButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:text="Quality"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/positionStatusButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:text="Position"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/centeredStatusButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:text="CENTER"
+            android:textColor="#FFFFFF" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="133dp"
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:id="@+id/bestImageView"
+            android:contentDescription="@string/pref_best_image"
+            android:layout_gravity="top|end" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/pauseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_margin="25dp"
+        android:text="Pause"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

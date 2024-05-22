@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="pref_quality_measures"
+        android:title="@string/pref_quality_measures"
+        android:defaultValue="true"
+        />
+
+    <SwitchPreference
+        android:key="pref_best_image"
+        android:title="@string/pref_best_image"
+        android:defaultValue="false"
+        />
+
+    <EditTextPreference
+        android:key="pref_blink_threshold"
+        android:title="@string/pref_blink_threshold"
+        android:defaultValue="0.4"
+        />
+
+    <SwitchPreference
+        android:key="pref_hmd_cutoff_switch"
+        android:title="@string/pref_hmd_cutoff_switch"
+        android:defaultValue="false"
+        />
+
+    <EditTextPreference
+        android:key="pref_hmd_cutoff_value"
+        android:title="@string/pref_hmd_cutoff_value"
+        android:defaultValue="700"
+        />
+
+    <EditTextPreference
+        android:key="pref_hmd_threshold"
+        android:title="@string/pref_hmd_threshold"
+        android:defaultValue="0.8"
+        />
+
+    <EditTextPreference
+        android:key="pref_hmd_time_limit_nod"
+        android:title="@string/pref_hmd_time_limit_nod"
+        android:defaultValue="800"
+        />
+
+    <EditTextPreference
+        android:key="pref_hmd_time_limit_shake"
+        android:title="@string/pref_hmd_time_limit_shake"
+        android:defaultValue="800"
+        />
+
+
+</PreferenceScreen>

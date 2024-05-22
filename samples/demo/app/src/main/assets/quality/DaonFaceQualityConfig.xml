@@ -1,0 +1,122 @@
+<DaonFaceQualityConfig>
+  <item name="FaceFoundConfidence">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.50
+    </info>
+    <value>
+      0.50
+    </value>
+  </item>
+  <item name="OnlyOneFaceConfidence">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.90
+    </info>
+    <value>
+      0.90
+    </value>
+  </item>
+  <item name="EyesFoundConfidence">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.50
+    </info>
+    <value>
+      0.50
+    </value>
+  </item>
+  <item name="EyesOpenConfidence">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.65
+    </info>
+    <value>
+      0.65
+    </value>
+  </item>
+  <item name="UniformLightingConfidence">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.50
+    </info>
+    <value>
+      0.50
+    </value>
+  </item>
+  <item name="FrontalPoseConfidence">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.50
+    </info>
+    <value>
+      0.50
+    </value>
+  </item>
+  <item name="InterEyesDistance">
+    <info>
+      Min-Threshold; Pixels; integer in range [0,IMAGE_SIZE_LIMIT]; default=90
+    </info>
+    <value>
+      90
+    </value>
+  </item>
+  <item name="PoseAngleRoll">
+    <info>
+      Range-Threshold [-Th,Th]; Degrees from vertical; integer in range [0,~45]; default=15
+    </info>
+    <value>
+      15
+    </value>
+  </item>
+  <item name="Sharpness">
+    <info>
+      Min-Threshold; Integer in range [0,100]; default=40
+    </info>
+    <value>
+      40
+    </value>
+  </item>
+  <item name="Exposure">
+    <info>
+      Min-Threshold; Integer in range [0,100]; default=35
+    </info>
+    <value>
+      35
+    </value>
+  </item>
+  <item name="GrayscaleDensity">
+    <info>
+      Min-Threshold; Integer in range [1,256]; default=90
+    </info>
+    <value>
+      90
+    </value>
+  </item>
+  <item name="FaceContinuityConfidence">
+    <info>
+      Min-Threshold; Integer in range [0,1]; default=0.3
+    </info>
+    <value>
+      0.3
+    </value>
+  </item>
+  <item name="ProcessingTimePerFrame">
+  <info>
+    Max-Threshold (in milliseconds); Float in range [0,MAX_FLOAT]; default=142 (i.e. 7fps)
+  </info>
+  <value>
+    142
+  </value>
+  </item>
+  <item name="GlobalFaceQuality">
+    <info>
+      Min-Threshold; Floating point in range [0,1]; default=0.60
+    </info>
+    <value>
+      0.60
+    </value>
+  </item>
+   <item name="MinFaceDetectionSize">
+    <info>
+      Minimum face detection size relative to the absolute minor dimension of the image; Floating point in range [0,1]; default=0.20
+    </info>
+    <value>
+      0.07
+    </value>
+  </item>
+</DaonFaceQualityConfig> 

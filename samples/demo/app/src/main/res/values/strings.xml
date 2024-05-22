@@ -1,0 +1,110 @@
+<resources>
+    <string name="app_name">Face liveness and quality</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_start">start</string>
+
+
+    <string name="content_image">Image</string>
+
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_not_granted">Permission not granted</string>
+
+    <string name="info">This app demonstrates best practices for server and client based enrollment and verification.</string>
+
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="next">Continue</string>
+    <string name="cancel">Cancel</string>
+    <string name="please_wait">Please wait&#8230;</string>
+    <string name="version">Version</string>
+    <string name="alert">Alert</string>
+    <string name="quality">Quality</string>
+    <string name="take_photo">Take Photo</string>
+
+    <string name="error_initializing_daonface">Failed to initialize Daon Face. Check license and settings.</string>
+    <string name="error_enroll">Passive liveness and blink was detected, but the image is not of sufficient quality. Please make sure to keep your face centered.</string>
+    <string name="error_verify">Passive liveness and blink was detected, but the image is not of sufficient quality. Please make sure to keep your face centered.</string>
+
+    <string name="pref_quality_measures">Show quality</string>
+    <string name="pref_best_image">Show best image</string>
+    <string name="pref_blink_threshold">Blink threshold</string>
+    <string name="pref_hmd_cutoff_switch">Enable distance cutoff (Nod/Shake)</string>
+    <string name="pref_hmd_cutoff_value">Distance cutoff (Nod/Shake)</string>
+    <string name="pref_hmd_threshold">Motion threshold (Nod/Shake)</string>
+    <string name="pref_hmd_time_limit_nod">Analysis time limit - Nod</string>
+    <string name="pref_hmd_time_limit_shake">Analysis time limit - Shake</string>
+
+    <string name="pref_passive_security">Passive security level (2–5)</string>
+    <string name="pref_frames">Minimum frames</string>
+    <string name="pref_delay">Hold time (milliseconds)</string>
+    <string name="pref_template">Create template</string>
+
+    <string name="title_verify">Verify face</string>
+    <string name="title_enroll">Enroll face</string>
+
+    <string name="face_verify_failed">Failed to verify face</string>
+    <string name="face_verify_timeout">Timeout</string>
+    <string name="face_verify_complete">Face verified</string>
+    <string name="face_not_detected">Keep face centered</string>
+    <string name="face_enroll">Enrolling face&#8230;</string>
+    <string name="face_enroll_failed">Failed to enroll face</string>
+    <string name="face_enroll_complete">Face enrolled</string>
+
+    <string name="face_liveness_detected">Liveness detected</string>
+    <string name="face_liveness_not_detected">Watching for liveness&#8230;</string>
+    <string name="face_liveness_blink_not_detected">Watching for blink&#8230;</string>
+    <string name="face_liveness_timeout">Liveness detection timeout</string>
+    <string name="face_liveness_performance">Low performance. It may not be possible to determine liveness.</string>
+    <string name="face_liveness_failed">Please try again</string>
+    <string name="face_liveness_hmd_face_not_detected">No face detected</string>
+    <string name="face_liveness_hmd_face_not_centered">Center face</string>
+    <string name="face_liveness_hmd_motion_too_fast">Motion too fast</string>
+    <string name="face_liveness_hmd_motion_swing_too_fast">Nod/Shake movement too fast</string>
+    <string name="face_liveness_hmd_motion_too_far">Nod/Shake movement too far</string>
+    <string name="face_liveness_hmd_too_close_to_edge">Face is too close to the edge</string>
+    <string name="face_liveness_hmd_too_near">Move device further away</string>
+    <string name="face_liveness_hmd_too_far">Move device closer</string>
+    <string name="face_liveness_hmd_spoof">Spoof detected</string>
+    <string name="face_liveness_hmd_quality">Low quality image</string>
+
+    <string name="face_liveness_hmd_insufficient_face_data">Insufficient face data</string>
+    <string name="face_liveness_hmd_insufficient_frame_data">Insufficient frame data</string>
+    <string name="face_liveness_hmd_frame_mismatch">Frame mismatch</string>
+    <string name="face_liveness_hmd_no_movement_detected">No movement detected</string>
+
+    <string name="face_quality_too_small">Move closer to the camera</string>
+    <string name="face_quality_too_large">Too close to the camera</string>
+    <string name="face_quality_non_uniform_lighting">Improve lighting conditions</string>
+    <string name="face_quality_exposure">Image too dark</string>
+    <string name="face_quality_pose">Face towards the camera</string>
+    <string name="face_quality_device_upright">Hold the device in an upright position</string>
+    <string name="face_quality_sharpness">Image blurred</string>
+
+    <string name="state_init">Initializing</string>
+    <string name="state_start">Determining liveness</string>
+    <string name="state_tracking">Look alive!</string>
+    <string name="state_analyzing">Analyzing</string>
+    <string name="state_done">Done</string>
+
+    <string name="photo_take">Retake</string>
+    <string name="photo_enroll">Enroll</string>
+    <string name="photo_info">Please take your photo</string>
+
+    <string name="face_liveness_clr_start">Hold device upright and do not move</string>
+    <string name="face_liveness_clr_sequence">Don\'t move!</string>
+
+    <string name="face_liveness_start">Looking for a face</string>
+    <string name="face_liveness_retry">Retry</string>
+
+    <string name="instructions_verify">Do not verify requests while operating a vehicle</string>
+    <string name="instructions_face">Hold phone at eye level and about half an arm\'s length away.</string>
+    <string name="instructions_face_position">Center face in viewer. No need to smile.</string>
+    <string name="instructions_face_features">Remove glasses and ensure good lighting.</string>
+    <string name="dont_show_again_button">Don\'t show again</string>
+
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
+</resources>

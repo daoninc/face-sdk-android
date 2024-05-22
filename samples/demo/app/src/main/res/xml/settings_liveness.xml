@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="pref_template"
+        android:title="@string/pref_template"
+        android:defaultValue="true"
+        />
+
+    <EditTextPreference
+        android:key="pref_frames"
+        android:title="@string/pref_frames"
+        android:defaultValue="10"
+        />
+
+    <EditTextPreference
+        android:key="pref_delay"
+        android:title="@string/pref_delay"
+        android:defaultValue="0"
+        />
+
+</PreferenceScreen>

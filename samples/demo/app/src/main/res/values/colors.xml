@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorEnabled">#228B22</color>
+    <color name="colorDisabled">#CCCCCC</color>
+    <color name="colorBackground">#333333</color>
+
+    <color name="red">#FF0000</color>
+    <color name="green">#2abc2a</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFFF00</color>
+
+</resources>
