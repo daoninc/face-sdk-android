@@ -113,5 +113,6 @@ daonFace.analyze(image)
         // Liveness event, e.g. blink
     }
 ```
-    
+
+See the [Face SDK Documentation](https://developer.identityx-cloud.com/client/face/android/) for more information.    
 
