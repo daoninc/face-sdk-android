@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 1
-	    versionName "5.3.2"
+	    versionName "5.3.4"
     }
     buildTypes {
         release {
@@ -86,7 +86,7 @@ dependencies {
     implementation 'com.daon.sdk:face-liveness-dfl:1.0.0'
 
     // Passive liveness V1
-    implementation 'com.daon.sdk:face-liveness:5.3.2'
+    implementation 'com.daon.sdk:face-liveness:5.3.4'
     implementation 'org.slf4j:slf4j-android:1.7.12'
 
     // Image loading library added for the Intro Animation
