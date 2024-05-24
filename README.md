@@ -29,8 +29,15 @@ The demo sample includes the following:
 
 ## API
 
+### Initialize
+
+**Kotlin**
 ```kotlin
 val daonFace = DaonFace(context, options)
+```
+**Java**
+```Java
+DaonFace daonFace = new DaonFace(context, options);
 ```
 
 Where the options and corresponding dependencies are:
@@ -92,15 +99,22 @@ Where the options and corresponding dependencies are:
     `com.daon.sdk:face`<BR>
     `com.daon.sdk:face-detector.mask`
 
-Analyze a bitmap.
+### Analyze a bitmap
 
+**Kotlin**
 ```kotlin
-var result = daonFace.analyze(bitmap);
+var result = daonFace.analyze(bitmap)
 ```
 
-Analyzes an image buffer from a live video feed. This method is asynchronous and returns an Analysis object. Your application will be notified asynchronously via the Analysis callbacks.
+**Java**
+```Java
+Result result = daonFace.analyze(bitmap);
+```
 
+### Analyze a video stream
+Analyzes an image buffer from a live camera feed. This method is asynchronous and returns an Analysis object. Your application will be notified asynchronously via the Analysis callbacks.
 
+**Kotlin**
 ```kotlin
 daonFace.analyze(image)
     .addAnalysisListener { result, img ->
@@ -114,5 +128,18 @@ daonFace.analyze(image)
     }
 ```
 
+**Java**
+```java
+daonFace.analyze(image)
+    .addAnalysisListener((result, img) -> {
+        // Frame result
+    })
+    .addAlertListener((result, alert) -> {
+        // Alerts, e.g. face too far, errors, timeout, etc.
+    })
+    .addEventDetectedListener((result, event, image) -> {
+       // Liveness event, e.g. blink     
+    });
+```
 See the [Face SDK Documentation](https://developer.identityx-cloud.com/client/face/android/) for more information.    
 
