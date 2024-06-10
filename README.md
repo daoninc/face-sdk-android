@@ -47,14 +47,14 @@ Where the options and corresponding dependencies are:
     Dependencies:<BR>
     `com.daon.sdk:face`
 
--   OPTION_LIVENESS -- Passive liveness
+-   OPTION_LIVENESS -- Passive liveness V1
     
-    V1 Dependencies:<BR>
     `com.daon.sdk:face`<BR>
     `com.daon.sdk:face-liveness`<BR>
     `org.slf4j:slf4j-android:1.7.12`
-
-    V2 Dependencies:<BR>
+    
+- OPTION_LIVENESS_V2 -- Passive liveness V2
+  
     `com.daon.sdk:face`<BR>
     `com.daon.sdk:face-liveness-dfl`<BR>
     `com.daon.sdk:face-quality`<BR>
