@@ -61,7 +61,7 @@ public class StartActivity extends AppCompatActivity {
                     UserPreferences preferences = UserPreferences.instance();
                     preferences.putBoolean(InstructionsActivity.SHOW_INSTRUCTIONS, true);
 
-                    DaonFace daonFace = null;
+                    DaonFace daonFace;
                     try {
                         daonFace = new DaonFace(getApplicationContext(), DaonFace.OPTION_RECOGNITION);
                         daonFace.clear();

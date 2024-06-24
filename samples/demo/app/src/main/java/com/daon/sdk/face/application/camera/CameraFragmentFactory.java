@@ -10,7 +10,7 @@ import com.daon.sdk.face.CameraTools;
 
 public class CameraFragmentFactory {
 
-    private static boolean useCameraX = true;
+    private static final boolean useCameraX = true;
 
     public static CameraFragment getFragment(Context context) {
         if (useLegacyCameraAPI(context)) {

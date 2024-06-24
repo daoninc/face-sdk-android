@@ -3,7 +3,6 @@ package com.daon.sdk.face.application;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,7 +58,7 @@ public class LightReflectionActivity extends AppCompatActivity implements Camera
             brightnessMode = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE);
             brightnessValue = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
         } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
+            Log.e("DAON", "Setting not available", e);
         }
 
         try {
@@ -100,38 +99,34 @@ public class LightReflectionActivity extends AppCompatActivity implements Camera
 
     private void changeScreenBrightness(int screenBrightnessValue)  {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.System.canWrite(this)) {
-                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightnessValue);
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Brightness");
+        if (Settings.System.canWrite(this)) {
+            Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+            Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightnessValue);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Brightness");
 
-                builder.setMessage("Allow this app to modify system settings (display brightness)");
-                builder.setPositiveButton(R.string.action_settings, (dialog, which) -> {
-                    // If do not have write settings permission then open the Can modify system settings panel.
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                    startActivity(intent);
+            builder.setMessage("Allow this app to modify system settings (display brightness)");
+            builder.setPositiveButton(R.string.action_settings, (dialog, which) -> {
+                // If do not have write settings permission then open the Can modify system settings panel.
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                startActivity(intent);
 
-                    dialog.dismiss();
-                });
+                dialog.dismiss();
+            });
 
-                builder.setNegativeButton(R.string.cancel, null);
-                AlertDialog dialog = builder.create();
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(true);
-                dialog.show();
-            }
+            builder.setNegativeButton(R.string.cancel, null);
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(true);
+            dialog.show();
         }
     }
 
     private void restoreBrightness() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.System.canWrite(this)) {
-                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, brightnessMode);
-                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessValue);
-            }
+        if (Settings.System.canWrite(this)) {
+            Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, brightnessMode);
+            Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessValue);
         }
     }
 

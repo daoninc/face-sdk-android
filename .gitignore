@@ -1,3 +1,7 @@
 
 .gradle
 
+.DS_Store
+.idea
+build
+

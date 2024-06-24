@@ -80,15 +80,14 @@ class FaceCaptureActivity : AppCompatActivity(), CameraFragment.CameraImageCallb
         }
     }
 
-    fun analyze(yuv: YUV) {
+    private fun analyze(yuv: YUV) {
         daonFace.analyze(yuv).addAnalysisListener{ result, img ->
 
             if (result.isTrackingFace) {
                 if (isQuality(result)) {
-                    frames += 1
-
-                    if (frames > 10) {
-                        synchronized(lock) {
+                    synchronized(lock) {
+                        frames += 1
+                        if (frames > 10) {
                             image = img
                             lock.notify()
                         }
@@ -97,8 +96,8 @@ class FaceCaptureActivity : AppCompatActivity(), CameraFragment.CameraImageCallb
                     binding.infoView.text = getQualityMessage(result)
                 }
             } else {
-                frames = 0
                 synchronized(lock) {
+                    frames = 0
                     image = null
                 }
             }

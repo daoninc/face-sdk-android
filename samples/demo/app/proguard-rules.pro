@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn com.samsung.**
+-dontwarn com.daon.**
+-dontwarn com.sensory.**
+

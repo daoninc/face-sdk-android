@@ -54,31 +54,27 @@ public class CustomAnalyzerActivity
 
             Bitmap bmp = toRGB565(rotateToPortrait(yuv));
 
-            try {
-                final FaceDetector detector = new FaceDetector(bmp.getWidth(), bmp.getHeight(), 1);
-                FaceDetector.Face[] detectedFaces = new FaceDetector.Face[1];
 
-                int numberOfFaces = detector.findFaces(bmp, detectedFaces);
-                if (numberOfFaces >= 1) {
+            final FaceDetector detector = new FaceDetector(bmp.getWidth(), bmp.getHeight(), 1);
+            FaceDetector.Face[] detectedFaces = new FaceDetector.Face[1];
 
-                    final FaceDetector.Face face = detectedFaces[0];
-                    final PointF midPoint = new PointF();
-                    face.getMidPoint(midPoint);
-                    final float eyesDistance = face.eyesDistance();
+            int numberOfFaces = detector.findFaces(bmp, detectedFaces);
+            if (numberOfFaces >= 1) {
 
-                    float x = midPoint.x - eyesDistance;
-                    float y = midPoint.y - eyesDistance;
-                    float width = 2 * eyesDistance;
-                    float height = 2 * eyesDistance;
+                final FaceDetector.Face face = detectedFaces[0];
+                final PointF midPoint = new PointF();
+                face.getMidPoint(midPoint);
+                final float eyesDistance = face.eyesDistance();
 
-                    rect = new RectF(x, y, x + width, y + height);
-                }
+                float x = midPoint.x - eyesDistance;
+                float y = midPoint.y - eyesDistance;
+                float width = 2 * eyesDistance;
+                float height = 2 * eyesDistance;
 
-                bmp.recycle();
-
-            } catch (OutOfMemoryError e) {
-                Log.e("DAON", e.getLocalizedMessage());
+                rect = new RectF(x, y, x + width, y + height);
             }
+
+            bmp.recycle();
 
             res.putParcelable("custom.rect", rect);
             return res;
@@ -135,15 +131,6 @@ public class CustomAnalyzerActivity
             return true;
         }
 
-        @Override
-        public void onImageSizeChanged(int width, int height) {
-
-        }
-
-        @Override
-        public void onConfigurationChanged(Bundle bundle) {
-
-        }
     }
 
 

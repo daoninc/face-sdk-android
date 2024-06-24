@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -60,10 +59,6 @@ public class PhotoQualityActivity extends AppCompatActivity {
         try {
             sdk = new DaonFace(this, DaonFace.OPTION_QUALITY | DaonFace.OPTION_MASK);
 
-            // Providing the license in the constructor.
-            // InputStream lic = new ByteArrayInputStream(licenseString.getBytes());
-            // sdk = new DaonFace(this, DaonFace.OPTION_QUALITY, lic);
-
             checkPermissions();
         } catch (Exception e) {
             Log.e("DAON", "Error initializing DaonFace", e);
@@ -94,10 +89,8 @@ public class PhotoQualityActivity extends AppCompatActivity {
 
     private void checkPermissions() {
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSIONS);
-        }
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSIONS);
     }
 
     @Override
@@ -169,16 +162,12 @@ public class PhotoQualityActivity extends AppCompatActivity {
         File photoFile = createImageFile();
         if (photoFile != null) {
 
-            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID + ".provider",
-                        photoFile);
+            Uri photoURI = FileProvider.getUriForFile(this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
 
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
-            } else {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-            }
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -323,7 +312,7 @@ public class PhotoQualityActivity extends AppCompatActivity {
         str.append("\nSharpness:    ").append(result.getQualityResult().hasAcceptableSharpness() ? "Good" : "Bad");
         str.append("\nExposure:     ").append(result.getQualityResult().hasAcceptableExposure() ? "Good" : "Bad");
         str.append("\nGrayscale:    ").append(result.getQualityResult().hasAcceptableGrayscaleDensity() ? "Good" : "Bad");
-        str.append("\nSize:         ").append(image.getWidth() + "x" + image.getHeight());
+        str.append("\nSize:         ").append(image.getWidth()).append("x").append(image.getHeight());
         str.append("\nScore:        ").append(result.getQualityResult().getScore());
 
         return str.toString();

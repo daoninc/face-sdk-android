@@ -2,18 +2,15 @@ package com.daon.sdk.face.application;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.hardware.Camera.Size;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Vibrator;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -287,10 +284,6 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 		String timeLimitShake = preferences.getString(PREF_HMD_TIME_LIMIT_SHAKE, Integer.toString(Config.DEFAULT_HMD_TIME_LIMIT_SHAKE));
 		String blinkThreshold = preferences.getString(PREF_BLINK_THRESHOLD, Float.toString(Config.DEFAULT_BLINK_THRESHOLD));
 
-//		Config.Builder builder = new Config.Builder();
-//		builder.setExposureThreshold(1).setEyeDistanceThreshold(200);
-//		faceSDK.setConfiguration(builder);
-
 		Bundle config = new Bundle();
 		config.putInt(Config.HMD_DISTANCE_CUTOFF, distCutoff);
 		config.putFloat(Config.HMD_MOTION_THRESHOLD, Float.parseFloat(motionThreshold));
@@ -362,13 +355,6 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 	private void updateView(TextView view, String text, boolean acceptable) {
 		view.setText(text);
 		view.setTextColor(acceptable ? Color.WHITE : Color.RED);
-	}
-
-
-	private void vibrate() {
-		Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		if (vibrator != null && vibrator.hasVibrator())
-			vibrator.vibrate(200);
 	}
 
 	private void initializeSDK() throws Exception {

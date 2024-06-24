@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
 
     <queries>
         <intent>
@@ -155,6 +155,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".capture.StartFaceCaptureActivity"
+            android:label="IFP Capture"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".capture.CaptureSelectorActivity">
+        </activity>
+        <activity
+            android:name=".capture.FaceCaptureActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true">
+        </activity>
+        <activity
+            android:name=".capture.FaceCaptureNoUIActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true">
+        </activity>
+
     </application>
 
 </manifest>

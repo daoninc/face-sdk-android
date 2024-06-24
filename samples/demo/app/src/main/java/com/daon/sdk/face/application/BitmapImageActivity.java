@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -92,7 +91,7 @@ public class BitmapImageActivity extends AppCompatActivity {
         findViewById(R.id.fiveButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_down_license)); // 180
         findViewById(R.id.sixButton).setOnClickListener(v -> analyze(v, R.mipmap.jp_license));
 
-        findViewById(R.id.cameraButton).setOnClickListener(v -> dispatchTakePictureIntent(v));
+        findViewById(R.id.cameraButton).setOnClickListener(this::dispatchTakePictureIntent);
 
         checkPermissions();
 
@@ -249,15 +248,11 @@ public class BitmapImageActivity extends AppCompatActivity {
         File photoFile = createImageFile();
         if (photoFile != null) {
 
-            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID + ".provider",
-                        photoFile);
+            Uri photoURI = FileProvider.getUriForFile(this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
 
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            } else {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-            }
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -327,10 +322,8 @@ public class BitmapImageActivity extends AppCompatActivity {
 
     // Camera permissions
     private void checkPermissions() {
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSIONS);
-        }
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSIONS);
     }
 
     @Override

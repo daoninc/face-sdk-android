@@ -54,9 +54,7 @@ public class UserPreferences {
 
     public int getInteger(String key, int defaultValue) {
         String value = preferences.getString(key, String.valueOf(defaultValue));
-        if (value != null)
-            return Integer.parseInt(value);
-        return defaultValue;
+        return Integer.parseInt(value);
     }
 
     public String getString(String key, String defaultValue) {

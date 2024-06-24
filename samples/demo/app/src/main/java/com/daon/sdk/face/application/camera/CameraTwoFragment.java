@@ -17,7 +17,6 @@
 package com.daon.sdk.face.application.camera;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.ImageFormat;
@@ -40,7 +39,6 @@ import android.os.HandlerThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import android.os.Looper;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -62,7 +60,6 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-@TargetApi(21)
 public class CameraTwoFragment extends CameraFragment  {
 
     /**
@@ -107,22 +104,22 @@ public class CameraTwoFragment extends CameraFragment  {
             = new TextureView.SurfaceTextureListener() {
 
         @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
+        public void onSurfaceTextureAvailable(@NonNull SurfaceTexture texture, int width, int height) {
             openCamera(width, height);
         }
 
         @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {
+        public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture texture, int width, int height) {
             configureTransform(width, height);
         }
 
         @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture texture) {
+        public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture texture) {
             return true;
         }
 
         @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture texture) {
+        public void onSurfaceTextureUpdated(@NonNull SurfaceTexture texture) {
         }
 
     };
