@@ -142,5 +142,64 @@ daonFace.analyze(image)
        // Liveness event, e.g. blink     
     });
 ```
+
+### Face Capture API
+The `CameraController` will handle the camera and can be used with and without a preview.
+
+The Capture API supports injection attack prevention when used in conjunction with the IdentityX server. The Capture API supports server liveness, client liveness, medical mask detection and quality assessment.
+
+**Kotlin**
+```kotlin
+val builder = CameraController.Builder(context, lifecycleOwner)
+if (previewView != null)
+    builder.setPreviewView(previewView)
+
+builder.setMedicalMaskDetection(false)
+builder.setCaptureQuality(Quality.High) // High | Low
+
+builder.setErrorListener { exception ->
+    errorMessage.postValue(exception.message)
+}.setPhotoListener { bitmap ->
+    // This event is triggered when a photograph is being processed.
+    // It allows you to use the photograph that has been taken, which can be
+    // useful for showing a preview of the photograph taken
+}.setCaptureCompleteListener { data ->
+    // Event that triggers after a photograph has been taken and processed.
+    // The data can be submitted to the server for further processing.
+}.setFaceDetectionListener { result ->
+    // Face to close, not centered, etc.
+    faceDetectionHint.postValue(getQualityMessage(result))
+}
+
+cameraController = builder.build()
+```
+
+**Java**
+```java
+CameraController.Builder builder = CameraController.Builder(context, lifecycleOwner);
+if (previewView != null)
+    builder.setPreviewView(previewView);
+
+builder.setMedicalMaskDetection(false);
+builder.setCaptureQuality(Quality.High); // High | Low
+
+
+builder.setErrorListener( (exception) -> {
+    errorMessage.postValue(exception.message)
+}).setPhotoListener( (bitmap) -> {
+    // This event is triggered when a photograph is being processed.
+    // It allows you to use the photograph that has been taken, which can be
+    // useful for showing a preview of the photograph taken
+}).setCaptureCompleteListener( (data) -> {
+    // Event that triggers after a photograph has been taken and processed.
+    // The data can be submitted to the server for further processing.
+}).setFaceDetectionListener( (result) -> {
+    // Face to close, not centered, etc.
+    faceDetectionHint.postValue(getQualityMessage(result))
+});
+
+cameraController = builder.build();
+```
+
 See the [Face SDK Documentation](https://developer.identityx-cloud.com/client/face/android/) for more information.    
 
