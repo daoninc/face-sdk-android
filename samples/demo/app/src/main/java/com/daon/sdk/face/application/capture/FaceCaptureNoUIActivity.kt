@@ -21,6 +21,7 @@ class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_u
     private lateinit var startButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var statusView: TextView
+    private var bitmap: Bitmap? = null
 
     private val viewModel: FaceCaptureViewModel by viewModels {
         FaceCaptureViewModel.CameraControllerViewModelFactory()
@@ -72,12 +73,12 @@ class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_u
         viewModel.result.observe(this) { data ->
             data ?: return@observe
             FileTools.write(this, "template.ifp", data)
-            showMessage("Template", "${data.size} bytes")
+            showPhoto("Template: ${data.size} bytes")
         }
 
         viewModel.photo.observe(this) { bitmap ->
             bitmap ?: return@observe
-            showBitmap(bitmap)
+            bitmap?.let { this.bitmap = it }
         }
 
         viewModel.createCameraController(applicationContext, this)
@@ -93,25 +94,16 @@ class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_u
             .show()
     }
 
-    private fun showMessage(title: String, message: String) {
-        AlertDialog.Builder(this)
-            .setTitle(title)
-            .setOnDismissListener { viewModel.state.value = State.Idle }
-            .setPositiveButton("Share") { _, _ -> share() }
-            .setNegativeButton("OK", null)
-            .setMessage(message)
-            .show()
-    }
-
-    private fun showBitmap(bitmap: Bitmap) {
+    private fun showPhoto(title: String) {
 
         val view = ImageView(this)
         view.setImageBitmap(bitmap)
 
         AlertDialog.Builder(this)
-            .setTitle("Photo")
+            .setTitle(title)
             .setOnDismissListener { viewModel.state.value = State.Idle }
-            .setPositiveButton("OK", null)
+            .setPositiveButton("Share") { _, _ -> share() }
+            .setNegativeButton("OK", null)
             .setView(view)
             .show()
     }
