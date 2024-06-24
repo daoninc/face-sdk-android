@@ -26,6 +26,7 @@ The demo sample includes the following:
 - **Face/Bitmap** Shows how to find faces in a photo/bitmap.
 - **Face Capture** Demonstrates how to capture a good image for enrollment or authentication using liveness and quality.
 - **Face/Custom Analyzer** Shows how to add a custom analyzer.
+- **IFP Capture** Demonstrates how to use the face Capture API to capture an image for enrollment and verification. The Capture API supports injection attack prevention when used in conjunction with the IdentityX server. 
 
 ## API
 
