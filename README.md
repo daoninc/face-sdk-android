@@ -154,6 +154,11 @@ The `CameraController` will handle the camera and can be used with and without a
 
 The Capture API supports injection attack prevention when used in conjunction with the IdentityX server. The Capture API supports server liveness, client liveness, medical mask detection and quality assessment.
 
+
+```
+implementation 'com.daon.sdk:face-capture:1.7.<build>'
+```
+
 **Kotlin**
 ```kotlin
 val builder = CameraController.Builder(context, lifecycleOwner)
