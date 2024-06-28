@@ -49,18 +49,21 @@ Where the options and corresponding dependencies are:
     `com.daon.sdk:face`
 
 -   OPTION_LIVENESS -- Passive liveness V1
-    
+
+    Dependencies:<BR>
     `com.daon.sdk:face`<BR>
     `com.daon.sdk:face-liveness`<BR>
-    `org.slf4j:slf4j-android:1.7.12`
-    
+
 - OPTION_LIVENESS_V2 -- Passive liveness V2
+
+  Dependencies:<BR>
+  `com.daon.sdk:face`<BR>
+  `com.daon.sdk:face-liveness-dfl`<BR>
   
-    `com.daon.sdk:face`<BR>
-    `com.daon.sdk:face-liveness-dfl`<BR>
-    `com.daon.sdk:face-quality`<BR>
-    `com.daon.sdk:face-matcher`<BR>
-    `com.daon.sdk:face-detector` 
+  Transitive dependencies:<BR>
+  *com.daon.sdk:face-quality*<BR>
+  *com.daon.sdk:face-matcher*<BR>
+  *com.daon.sdk:face-detector*
 
 -   OPTION_LIVENESS_HMD -- Face nod and shake detection.
 
@@ -91,14 +94,17 @@ Where the options and corresponding dependencies are:
 
     Dependencies:<BR>
     `com.daon.sdk:face`<BR>
-    `com.daon.sdk:crypto`<BR>
     `com.daon.sdk:face-matcher`<BR>
-    `com.daon.sdk:face-detector`<BR>    
+    `com.daon.sdk:crypto`<BR>
 
+    Transitive dependencies:<BR>
+    *com.daon.sdk:face-detector*
+    
 -   OPTION_MASK -- Medical/surgical mask detection.
+  
     Dependencies:<BR>
     `com.daon.sdk:face`<BR>
-    `com.daon.sdk:face-detector.mask`
+    `com.daon.sdk:face-mask`
 
 ### Analyze a bitmap
 
