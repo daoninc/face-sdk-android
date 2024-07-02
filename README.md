@@ -1,8 +1,8 @@
-# Daon Face SDK
+# xProof Face SDK
 
-The Daon Face SDK can be used in conjunction with the IdentityX server to offer face-processing capabilities on Android mobile devices.
+The xProof Face SDK can be used in conjunction with the IdentityX server to offer face-processing capabilities on Android mobile devices.
 
-The IdentityX Face SDK is made up of the following core features:
+The SDK is made up of the following core features:
 
 - Face Quality Analysis
 - Passive Liveness Detection
@@ -212,5 +212,5 @@ builder.setErrorListener( (exception) -> {
 cameraController = builder.build();
 ```
 
-See the [Face SDK Documentation](https://developer.identityx-cloud.com/client/face/android/) for more information.    
+See the [xProof Face SDK Documentation](https://developer.identityx-cloud.com/client/face/android/) for more information.    
 
