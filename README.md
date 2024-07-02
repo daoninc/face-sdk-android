@@ -11,7 +11,7 @@ The SDK is made up of the following core features:
 - Light Reflection Liveness Detection
 
 ## License
-The IdentityX FIDO Client SDK requires a license that is bound to an application identifier. This license may in turn embed licenses that are required for specific authenticators. Contact Daon Support or Sales to request a license.
+The xProof Face SDK requires a license that is bound to an application identifier. This license may in turn embed licenses that are required for specific authenticators. Contact Daon Support or Sales to request a license.
 
 ## Samples
 
