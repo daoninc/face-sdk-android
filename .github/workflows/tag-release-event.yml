@@ -1,0 +1,32 @@
+name: Tag and Release
+
+on:
+  repository_dispatch:
+    types: [event-release]    
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create tag
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/${{ github.event.client_payload.version }}',
+            sha: context.sha
+          })
+          
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.ref_name }}
+      run: |        
+        gh release create "${{ github.event.client_payload.version }}" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${{ github.event.client_payload.version }}" \
+            --generate-notes
+            
