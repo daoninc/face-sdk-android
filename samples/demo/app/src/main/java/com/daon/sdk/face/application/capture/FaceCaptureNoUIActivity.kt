@@ -73,12 +73,12 @@ class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_u
         viewModel.result.observe(this) { data ->
             data ?: return@observe
             FileTools.write(this, "template.ifp", data)
-            showPhoto("Template: ${data.size} bytes")
+            showPhoto("Template: ${data.size} bytes\nPhoto: ${bitmap?.width} x ${bitmap?.height}")
         }
 
         viewModel.photo.observe(this) { bitmap ->
             bitmap ?: return@observe
-            bitmap?.let { this.bitmap = it }
+            bitmap.let { this.bitmap = it }
         }
 
         viewModel.createCameraController(applicationContext, this)

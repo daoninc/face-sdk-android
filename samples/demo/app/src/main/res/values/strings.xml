@@ -112,6 +112,7 @@
     <string name="use_preview">Use preview</string>
     <string name="use_passive">Passive liveness</string>
     <string name="use_blink">Blink detection</string>
+    <string name="use_quality_high">High quality</string>
     <string name="message_no_ui">You can use the capture library without PreviewView.</string>
     <string name="rational_request_permissions">Daon Face Capture.\n\nAfter you press the button below, you will see a window asking you to access the camera.</string>
     <string name="request_permission_for_camera">Request permission to use camera</string>

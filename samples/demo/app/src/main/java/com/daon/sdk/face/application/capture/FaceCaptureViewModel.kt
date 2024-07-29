@@ -1,6 +1,5 @@
 package com.daon.sdk.face.application.capture
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
@@ -43,9 +42,15 @@ class FaceCaptureViewModel(
             builder.setPreviewView(previewView)
 
         builder.setMedicalMaskDetection(false)
-        builder.setCaptureQuality(Quality.Low)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val high = prefs.getBoolean("quality", false)
+        if (high)
+            builder.setCaptureQuality(Quality.High)
+        else
+            builder.setCaptureQuality(Quality.Low)
+
         if (prefs.getBoolean("passive", false))
             builder.setPassiveLiveness(Liveness.V1)
 

@@ -43,4 +43,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passiveSwitch" />
 
+    <Switch
+        android:id="@+id/qualitySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/use_quality_high"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blinkSwitch" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

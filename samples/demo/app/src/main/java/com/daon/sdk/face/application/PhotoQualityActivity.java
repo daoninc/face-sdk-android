@@ -305,9 +305,8 @@ public class PhotoQualityActivity extends AppCompatActivity {
             str.append("\nEyes Found:   ").append(result.getQualityResult().hasEyes() ? "Yes" : "No");
             str.append("\nEyes Open:    ").append(result.getQualityResult().hasEyesOpen() ? "Yes" : "No");
             str.append("\nEye Distance: ").append(result.getQualityResult().getEyeDistance()).append("px");
-            str.append("\nMask:         ").append(result.getQualityResult().hasMask() ? "Yes" : "No");
         }
-
+        str.append("\nMask:         ").append(result.getQualityResult().hasMask() ? "Yes" : "No");
         str.append("\nLighting:     ").append(result.getQualityResult().hasUniformLighting() ? "Good" : "Bad");
         str.append("\nSharpness:    ").append(result.getQualityResult().hasAcceptableSharpness() ? "Good" : "Bad");
         str.append("\nExposure:     ").append(result.getQualityResult().hasAcceptableExposure() ? "Good" : "Bad");

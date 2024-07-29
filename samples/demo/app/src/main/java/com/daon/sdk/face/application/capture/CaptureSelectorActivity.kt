@@ -1,8 +1,6 @@
 package com.daon.sdk.face.application.capture
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.PreferenceManager
 import android.widget.Button
@@ -38,6 +36,13 @@ class CaptureSelectorActivity : AppCompatActivity(R.layout.activity_capture_sele
             isChecked = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("blink", false)
             setOnCheckedChangeListener { _, isChecked ->
                 PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("blink", isChecked).apply()
+            }
+        }
+
+        findViewById<Switch>(R.id.qualitySwitch).apply {
+            isChecked = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("quality", false)
+            setOnCheckedChangeListener { _, isChecked ->
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("quality", isChecked).apply()
             }
         }
     }
