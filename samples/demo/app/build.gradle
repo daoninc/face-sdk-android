@@ -50,7 +50,11 @@ android {
 
 repositories {
     maven { url "file://$rootProject.projectDir/../../repository" }
-    maven { url "https://maven.pkg.github.com/daoninc/sdk-packages/" }
+    maven { url "https://maven.pkg.github.com/daoninc/sdk-packages/"
+        credentials {
+            username "<GITHUB_USER>"
+            password "<GITHUB_TOKEN>"
+        }}
     //maven { url "https://nexus.identityx-build.com/repository/sdk-maven/"}
 }
 
