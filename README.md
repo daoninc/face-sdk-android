@@ -28,6 +28,11 @@ The demo sample includes the following:
 - **Face/Custom Analyzer** Shows how to add a custom analyzer.
 - **IFP Capture** Demonstrates how to use the face Capture API to capture an image for enrollment and verification. The Capture API supports injection attack prevention when used in conjunction with the IdentityX server. 
 
+## SDK repository
+In your project-level build.gradle file, make sure to include the Daon Maven repository in your buildscript or allprojects sections.
+
+[Daon Maven repository](https://github.com/daoninc/sdk-packages/blob/main/README.md)
+
 ## API
 
 ### Initialize
