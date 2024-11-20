@@ -85,7 +85,7 @@
 
             <Button
                 android:id="@+id/centeredStatusButton"
-                android:layout_width="80dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
                 android:text="Center"

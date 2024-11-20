@@ -57,6 +57,8 @@ class FaceCaptureViewModel(
         if (prefs.getBoolean("blink", false))
             builder.setBlinkDetection(true)
 
+        builder.setDeviceUprightDetection(true)
+
         val params = Bundle()
         params.putFloat(Config.BLINK_THRESHOLD, 0.1f)
         builder.setParameters(params)
