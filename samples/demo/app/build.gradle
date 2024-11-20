@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.daon.sdk:face-quality:3.2.103'
 
     // Face Capture with IFP service template
-    implementation 'com.daon.sdk:face-capture:1.7.44'
+    implementation 'com.daon.sdk:face-capture:2.0.44'
 
     // Head movement detection
     implementation 'com.daon.sdk:face-hmd:5.3.44'
