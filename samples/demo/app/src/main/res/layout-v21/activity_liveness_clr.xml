@@ -4,13 +4,55 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:gravity="center"
+        android:text="Face CLR Liveness"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <Button
+            android:id="@+id/trackerStatusButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Tracking"/>
+
+        <Button
+            android:id="@+id/positionStatusButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Position"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/preview"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/buttons"/>
+
+    <TextView
+        android:id="@+id/flashView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="1.0"
-        android:background="@color/colorBackground">
-    </FrameLayout>
+        android:padding="25dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/face_liveness_clr_start"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <com.daon.sdk.face.LightReflectionView
         android:id="@+id/sequence"
@@ -18,55 +60,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
-    <TextView
-        android:id="@+id/flashView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="1.0"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:gravity="center"
-        android:text="@string/face_liveness_clr_start"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <Button
-            android:id="@+id/trackerStatusButton"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:text="Tracking"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/positionStatusButton"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:text="Position"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/retryButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_gravity="center"
-        android:layout_margin="25dp"
-        android:text="Retry"
-        android:textColor="#FFFFFF"
-        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

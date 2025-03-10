@@ -3,14 +3,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:gravity="center"
+        android:text="Face Liveness V2"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <FrameLayout
         android:id="@+id/preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.65"
-        android:background="#434D85">
-
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <TextView
         android:id="@+id/infoView"
@@ -20,12 +28,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="#44000000"
+        android:background="#66000000"
         android:layout_margin="80dp"
         android:padding="10dp"
         android:gravity="center"
         android:text="@string/face_liveness_start"
         android:textSize="24sp"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -47,27 +56,37 @@
         android:id="@+id/moreInfoView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0.8"
+        android:layout_margin="50dp"
+        android:alpha="0.9"
         android:background="@color/design_default_color_error"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:gravity="top|center"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="50dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/face_liveness_retry"
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/restartButton"
-        android:layout_width="0dp"
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_gravity="center"
-        android:layout_margin="25dp"
-        android:text="@string/face_liveness_retry"
-        android:textColor="#FFFFFF"
+        android:text="@string/action_settings"
         android:visibility="gone"/>
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

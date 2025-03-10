@@ -10,9 +10,6 @@
         android:id="@+id/photoImageView"
         android:layout_width="320dp"
         android:layout_height="240dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:contentDescription="Photo"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +44,7 @@
                 <TextView
                     android:id="@+id/faceOneTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF" />
+                    android:layout_height="wrap_content"/>
 
                 <ImageView
                     android:id="@+id/faceOneImageView"
@@ -70,8 +66,7 @@
                 <TextView
                     android:id="@+id/faceTwoTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF" />
+                    android:layout_height="wrap_content"/>
 
                 <ImageView
                     android:id="@+id/faceTwoImageView"
@@ -93,8 +88,7 @@
                 <TextView
                     android:id="@+id/faceThreeTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF" />
+                    android:layout_height="wrap_content"/>
 
                 <ImageView
                     android:id="@+id/faceThreeImageView"
@@ -116,8 +110,7 @@
                 <TextView
                     android:id="@+id/faceFourTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF" />
+                    android:layout_height="wrap_content"/>
 
                 <ImageView
                     android:id="@+id/faceFourImageView"
@@ -136,7 +129,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="#FFFFFF"
         android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonLayout"/>
 
@@ -152,44 +144,37 @@
             android:id="@+id/oneButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textColor="#FFFFFF" />
+            android:text="1"/>
         <Button
             android:id="@+id/twoButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="2"
-            android:textColor="#FFFFFF" />
+            android:text="2"/>
         <Button
             android:id="@+id/threeButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="3"
-            android:textColor="#FFFFFF" />
+            android:text="3"/>
         <Button
             android:id="@+id/fourButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="4"
-            android:textColor="#FFFFFF" />
+            android:text="4"/>
         <Button
             android:id="@+id/fiveButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="5"
-            android:textColor="#FFFFFF" />
+            android:text="5"/>
         <Button
             android:id="@+id/sixButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="6"
-            android:textColor="#FFFFFF" />
+            android:text="6"/>
         <Button
             android:id="@+id/cameraButton"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="..."
-            android:textColor="#FFFFFF" />
+            android:text="..."/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

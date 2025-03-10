@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.widget.Button;
@@ -34,7 +33,7 @@ import java.io.IOException;
 /**
  * Demonstrate single image quality.
  */
-public class PhotoQualityActivity extends AppCompatActivity {
+public class PhotoQualityActivity extends EdgeToEdgeActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -62,7 +61,7 @@ public class PhotoQualityActivity extends AppCompatActivity {
             checkPermissions();
         } catch (Exception e) {
             Log.e("DAON", "Error initializing DaonFace", e);
-            showMessage("Error", e.getLocalizedMessage());
+            showMessage(e.getLocalizedMessage());
         }
     }
 
@@ -73,10 +72,9 @@ public class PhotoQualityActivity extends AppCompatActivity {
             sdk.stop();
     }
 
-    private void showMessage(String title, String message) {
+    private void showMessage(String message) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
 
         builder.setMessage(message);
         builder.setPositiveButton(R.string.ok, (dialog, which) -> finish());

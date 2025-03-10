@@ -9,14 +9,14 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.daon.sdk.face.FileTools
+import com.daon.sdk.face.application.EdgeToEdgeActivity
 import com.daon.sdk.face.application.R
 import java.io.File
 
-class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_ui) {
+class FaceCaptureNoUIActivity : EdgeToEdgeActivity(R.layout.activity_capture_no_ui) {
 
     private lateinit var startButton: Button
     private lateinit var progressBar: ProgressBar
@@ -81,7 +81,11 @@ class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_u
             bitmap.let { this.bitmap = it }
         }
 
-        viewModel.createCameraController(applicationContext, this)
+        try {
+            viewModel.createCameraController(applicationContext, this)
+        } catch (e: Exception) {
+            showError("Error", e.message ?: "Unknown error")
+        }
 
         startButton.setOnClickListener(viewModel.onStartButtonClickListener)
     }
@@ -89,8 +93,9 @@ class FaceCaptureNoUIActivity : AppCompatActivity(R.layout.activity_capture_no_u
     private fun showError(title: String, message: String) {
         AlertDialog.Builder(this)
             .setTitle(title)
-            .setOnDismissListener { viewModel.state.value = State.Idle }
             .setMessage(message)
+            .setOnDismissListener { viewModel.state.value = State.Idle }
+            .setPositiveButton("OK") { _, _ -> finish() }
             .show()
     }
 

@@ -5,13 +5,13 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.DisplayMetrics
 import android.util.Log
-import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.*
+import androidx.camera.core.resolutionselector.AspectRatioStrategy
+import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,15 +20,6 @@ import com.daon.sdk.face.YUV
 import com.daon.sdk.face.application.R
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-
-private const val RATIO_4_3_VALUE = 4.0 / 3.0
-private const val RATIO_16_9_VALUE = 16.0 / 9.0
-
-private const val IMAGE_WIDTH = 640
-private const val IMAGE_HEIGHT = 480
 
 class CameraXFragment : CameraFragment() {
 
@@ -99,13 +90,6 @@ class CameraXFragment : CameraFragment() {
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases() {
 
-        // Get screen metrics used to setup camera for full screen resolution
-        val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
-        Log.d("DAON", "Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
-
-        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
-        Log.d("DAON", "Preview aspect ratio: $screenAspectRatio")
-
         val rotation = viewFinder.display.rotation
 
         // Bind the CameraProvider to the LifeCycleOwner
@@ -119,24 +103,22 @@ class CameraXFragment : CameraFragment() {
             // CameraProvider
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
+            val resolutionSelectorBuilder = ResolutionSelector.Builder().apply {
+                    setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
+            }
+
             // Preview
             preview = Preview.Builder()
-                    // We request aspect ratio but no resolution
-                    .setTargetAspectRatio(screenAspectRatio)
-                    // Set initial target rotation
+                    .setResolutionSelector(resolutionSelectorBuilder.build())
                     .setTargetRotation(rotation)
                     .build()
                     .also {
-                        it.setSurfaceProvider(viewFinder.surfaceProvider)
+                        it.surfaceProvider = viewFinder.surfaceProvider
                     }
 
             // ImageAnalysis
             imageAnalyzer = ImageAnalysis.Builder()
-                    // We request aspect ratio but no resolution
-                    //.setTargetAspectRatio(screenAspectRatio)
-                    .setTargetResolution(Size(IMAGE_HEIGHT, IMAGE_WIDTH))
-                    // Set initial target rotation, we will have to call this again if rotation changes
-                    // during the lifecycle of this use case
+                    .setResolutionSelector(resolutionSelectorBuilder.build())
                     .setTargetRotation(rotation)
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .build()
@@ -165,22 +147,6 @@ class CameraXFragment : CameraFragment() {
             }
 
         }, ContextCompat.getMainExecutor(requireContext()))
-    }
-
-    /**
-     *  Detecting the most suitable ratio for dimensions provided in @params by counting absolute
-     *  of preview ratio to one of the provided values.
-     *
-     *  @param width - preview width
-     *  @param height - preview height
-     *  @return suitable aspect ratio
-     */
-    private fun aspectRatio(width: Int, height: Int): Int {
-        val previewRatio = max(width, height).toDouble() / min(width, height)
-        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
-            return AspectRatio.RATIO_4_3
-        }
-        return AspectRatio.RATIO_16_9
     }
 
 }

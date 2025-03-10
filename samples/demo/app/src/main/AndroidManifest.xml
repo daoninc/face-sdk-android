@@ -103,7 +103,7 @@
             android:screenOrientation="unspecified" />
 
         <activity
-            android:name=".PassiveLivenessV2IntroActivity"
+            android:name=".PassiveLivenessV2Activity"
             android:label="Face/Passive V2"
             android:screenOrientation="portrait"
             android:exported="true">
@@ -113,10 +113,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".PassiveLivenessV2Activity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".PassiveLivenessV2SettingsActivity"

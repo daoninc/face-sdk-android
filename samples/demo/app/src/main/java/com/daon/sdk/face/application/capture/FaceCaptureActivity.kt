@@ -9,14 +9,14 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.daon.sdk.face.FileTools
+import com.daon.sdk.face.application.EdgeToEdgeActivity
 import com.daon.sdk.face.application.R
 import java.io.File
 
-class FaceCaptureActivity : AppCompatActivity(R.layout.activity_capture) {
+class FaceCaptureActivity : EdgeToEdgeActivity(R.layout.activity_capture) {
 
     private lateinit var startButton: Button
     private lateinit var progressBar: ProgressBar
@@ -51,6 +51,7 @@ class FaceCaptureActivity : AppCompatActivity(R.layout.activity_capture) {
                     startButton.isVisible = false
                     progressBar.isVisible = false
                     statusView.isVisible = true
+                    statusView.text = resources.getString(R.string.face_not_detected)
                 }
 
                 State.Analyzing -> {
@@ -82,11 +83,15 @@ class FaceCaptureActivity : AppCompatActivity(R.layout.activity_capture) {
             bitmap.let { this.bitmap = it }
         }
 
-        viewModel.createCameraController(
-            applicationContext,
-            this,
-            findViewById(R.id.previewView),
-        )
+        try {
+            viewModel.createCameraController(
+                applicationContext,
+                this,
+                findViewById(R.id.previewView),
+            )
+        } catch (e: Exception) {
+            showError("Error", e.message ?: "Unknown error")
+        }
 
         startButton.setOnClickListener(viewModel.onStartButtonClickListener)
     }
@@ -95,8 +100,9 @@ class FaceCaptureActivity : AppCompatActivity(R.layout.activity_capture) {
     private fun showError(title: String, message: String) {
         AlertDialog.Builder(this)
             .setTitle(title)
-            .setOnDismissListener { viewModel.state.value = State.Idle }
             .setMessage(message)
+            .setOnDismissListener { viewModel.state.value = State.Idle }
+            .setPositiveButton("OK") { _, _ -> finish() }
             .show()
     }
 

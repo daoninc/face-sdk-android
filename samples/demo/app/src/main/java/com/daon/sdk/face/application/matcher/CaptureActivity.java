@@ -7,16 +7,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.daon.sdk.face.DaonFace;
+import com.daon.sdk.face.application.EdgeToEdgeActivity;
 import com.daon.sdk.face.application.R;
 
 
-public class CaptureActivity extends AppCompatActivity implements CaptureFaceFragment.CaptureCallback {
+public class CaptureActivity extends EdgeToEdgeActivity implements CaptureFaceFragment.CaptureCallback {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,6 @@ public class CaptureActivity extends AppCompatActivity implements CaptureFaceFra
 			else
 				replaceFragment(new EnrollmentFragment());
 		} catch (Exception e) {
-			Log.e("DAON", "Error initializing DaonFace", e);
 			showMessage(R.string.error_initializing_daonface);
 		}
 	}

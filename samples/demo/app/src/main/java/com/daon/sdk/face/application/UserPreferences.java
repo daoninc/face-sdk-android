@@ -54,7 +54,11 @@ public class UserPreferences {
 
     public int getInteger(String key, int defaultValue) {
         String value = preferences.getString(key, String.valueOf(defaultValue));
-        return Integer.parseInt(value);
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     public String getString(String key, String defaultValue) {

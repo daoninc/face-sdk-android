@@ -4,16 +4,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.daon.sdk.face.DaonFace;
+import com.daon.sdk.face.application.EdgeToEdgeActivity;
 import com.daon.sdk.face.application.R;
 import com.daon.sdk.face.application.UserPreferences;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends EdgeToEdgeActivity {
 
     Button startButton;
     Button resetButton;

@@ -5,12 +5,12 @@ import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.daon.sdk.face.application.EdgeToEdgeActivity
 import com.daon.sdk.face.application.R
 
-class StartFaceCaptureActivity : AppCompatActivity() {
+class StartFaceCaptureActivity : EdgeToEdgeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

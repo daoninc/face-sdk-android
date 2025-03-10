@@ -33,12 +33,12 @@ public class VerificationFragment extends CaptureFaceFragment {
 
         if (passive && blink) {
             vibrate();
-            setInfo(R.string.face_liveness_detected, R.color.green);
+            setInfo(R.string.face_liveness_detected, R.color.colorEnabled);
             authenticate(image);
         } else if (passive) {
-            setInfo(R.string.face_liveness_blink_not_detected, R.color.green);
+            setInfo(R.string.face_liveness_blink_not_detected, R.color.colorEnabled);
         } else {
-            setInfo(R.string.face_liveness_not_detected, R.color.green);
+            setInfo(R.string.face_liveness_not_detected, R.color.colorEnabled);
         }
     }
 

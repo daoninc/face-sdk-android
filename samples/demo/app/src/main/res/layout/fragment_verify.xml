@@ -8,11 +8,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
-        android:layout_marginBottom="15dip"
-        android:layout_marginLeft="40dip"
-        android:layout_marginRight="40dip"
         android:gravity="center"
+        android:padding="50dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_centerHorizontal="true"
         android:text="@string/title_verify" />

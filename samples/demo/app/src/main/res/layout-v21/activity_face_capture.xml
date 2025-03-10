@@ -3,14 +3,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:gravity="center"
+        android:text="Face Capture"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <FrameLayout
         android:id="@+id/preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.65"
-        android:background="#434D85">
-
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <TextView
         android:id="@+id/infoView"
@@ -25,6 +33,7 @@
         android:padding="10dp"
         android:gravity="center"
         android:text="@string/face_liveness_start"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -67,7 +76,6 @@
         android:layout_gravity="center"
         android:layout_margin="25dp"
         android:text="@string/face_liveness_retry"
-        android:textColor="#FFFFFF"
         android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

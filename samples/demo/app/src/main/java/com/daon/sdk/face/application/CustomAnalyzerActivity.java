@@ -8,8 +8,6 @@ import android.graphics.RectF;
 import android.media.FaceDetector;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.daon.sdk.face.CameraTools;
@@ -22,7 +20,7 @@ import com.daon.sdk.face.module.CustomAnalyzer;
 
 
 public class CustomAnalyzerActivity
-        extends AppCompatActivity
+        extends EdgeToEdgeActivity
         implements CameraFragment.CameraImageCallback {
 
     public static class MyAnalyzer extends CustomAnalyzer {
@@ -158,15 +156,13 @@ public class CustomAnalyzerActivity
             daonFace = new DaonFace(this, DaonFace.OPTION_QUALITY | DaonFace.OPTION_DEVICE_POSITION);
             daonFace.addAnalyzer(new MyAnalyzer(getApplicationContext()));
         } catch (Exception e) {
-            Log.e("DAON", "Error initializing DaonFace", e);
-            showDialog("Error", e.getLocalizedMessage());
+            showMessage(e.getLocalizedMessage());
         }
     }
 
-    private void showDialog(String title, String message) {
+    private void showMessage(String message) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
 
         builder.setMessage(message);
         builder.setPositiveButton(R.string.ok, (dialog, which) -> finish());
@@ -194,7 +190,7 @@ public class CustomAnalyzerActivity
                     .append("\t\tUpright: ")
                     .append(result.isDeviceUpright() ? "Yes" : "No")
                     .append("\t\tQuality: ")
-                    .append(result.getQualityResult().getScore());
+                    .append(String.format("%.2f", result.getQualityResult().getScore()));
 
             info.setText(sb.toString());
         });

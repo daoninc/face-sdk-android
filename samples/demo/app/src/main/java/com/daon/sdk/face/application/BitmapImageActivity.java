@@ -1,16 +1,16 @@
 package com.daon.sdk.face.application;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.os.Environment;
@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class BitmapImageActivity extends AppCompatActivity {
+public class BitmapImageActivity extends EdgeToEdgeActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PERMISSIONS = 2;
@@ -51,7 +51,7 @@ public class BitmapImageActivity extends AppCompatActivity {
     private TextView facesFound;
 
     private String currentPhotoPath;
-    private View lastView;
+    private Button selectedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,41 +61,42 @@ public class BitmapImageActivity extends AppCompatActivity {
 
         try {
             daonFace = new DaonFace(this, DaonFace.OPTION_QUALITY);
+
+            Bundle config = new Bundle();
+            config.putFloat(Config.QUALITY_THRESHOLD_FACE_FRONTAL, 0.45f);
+            //config.putFloat(Config.QUALITY_THRESHOLD_MIN_FACE_SIZE, 0.04f);
+            daonFace.setConfiguration(config);
+
+            photo = findViewById(R.id.photoImageView);
+
+            facesFound = findViewById(R.id.facesFoundTextView);
+
+            faceOne = findViewById(R.id.faceOneImageView);
+            faceTwo = findViewById(R.id.faceTwoImageView);
+            faceThree = findViewById(R.id.faceThreeImageView);
+            faceFour = findViewById(R.id.faceFourImageView);
+
+            faceOneScore = findViewById(R.id.faceOneTextView);
+            faceTwoScore = findViewById(R.id.faceTwoTextView);
+            faceThreeScore = findViewById(R.id.faceThreeTextView);
+            faceFourScore = findViewById(R.id.faceFourTextView);
+
+            findViewById(R.id.oneButton).setOnClickListener(v -> analyze(v, R.mipmap.usdl));
+            findViewById(R.id.twoButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_license));
+            findViewById(R.id.threeButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_land_left_license)); // 90 to upright
+            findViewById(R.id.fourButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_land_right_license)); // 270
+            findViewById(R.id.fiveButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_down_license)); // 180
+            findViewById(R.id.sixButton).setOnClickListener(v -> analyze(v, R.mipmap.jp_license));
+
+            findViewById(R.id.cameraButton).setOnClickListener(this::dispatchTakePictureIntent);
+
+            checkPermissions();
+
+            analyze(findViewById(R.id.oneButton), R.mipmap.usdl);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            showMessage(e.getLocalizedMessage());
+
         }
-
-        Bundle config = new Bundle();
-        config.putFloat(Config.QUALITY_THRESHOLD_FACE_FRONTAL, 0.45f);
-        //config.putFloat(Config.QUALITY_THRESHOLD_MIN_FACE_SIZE, 0.04f);
-        daonFace.setConfiguration(config);
-
-        photo = findViewById(R.id.photoImageView);
-
-        facesFound = findViewById(R.id.facesFoundTextView);
-
-        faceOne = findViewById(R.id.faceOneImageView);
-        faceTwo = findViewById(R.id.faceTwoImageView);
-        faceThree = findViewById(R.id.faceThreeImageView);
-        faceFour = findViewById(R.id.faceFourImageView);
-
-        faceOneScore = findViewById(R.id.faceOneTextView);
-        faceTwoScore = findViewById(R.id.faceTwoTextView);
-        faceThreeScore = findViewById(R.id.faceThreeTextView);
-        faceFourScore = findViewById(R.id.faceFourTextView);
-
-        findViewById(R.id.oneButton).setOnClickListener(v -> analyze(v, R.mipmap.usdl));
-        findViewById(R.id.twoButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_license));
-        findViewById(R.id.threeButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_land_left_license)); // 90 to upright
-        findViewById(R.id.fourButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_land_right_license)); // 270
-        findViewById(R.id.fiveButton).setOnClickListener(v -> analyze(v, R.mipmap.va_u21_down_license)); // 180
-        findViewById(R.id.sixButton).setOnClickListener(v -> analyze(v, R.mipmap.jp_license));
-
-        findViewById(R.id.cameraButton).setOnClickListener(this::dispatchTakePictureIntent);
-
-        checkPermissions();
-
-        analyze(findViewById(R.id.oneButton), R.mipmap.usdl);
     }
 
     @Override
@@ -128,7 +129,7 @@ public class BitmapImageActivity extends AppCompatActivity {
 
                     facesFound.setText(String.format(Locale.US, "Number of faces: %d", faces.size()));
 
-                    if (faces.size() > 0) {
+                    if (!faces.isEmpty()) {
                         setFaceImage(faceOne, faces.get(0));
                         setFaceScore(faceOneScore, faces.get(0));
                     }
@@ -180,11 +181,11 @@ public class BitmapImageActivity extends AppCompatActivity {
 
     private void reset(View view) {
 
-        if (lastView != null)
-            ((Button)lastView).setTextColor(Color.GRAY);
+        if (selectedButton != null)
+            selectedButton.setTextColor(faceOneScore.getCurrentTextColor()); // Get the current system text color
 
-        ((Button)view).setTextColor(Color.GREEN);
-        lastView = view;
+        selectedButton = (Button)view;
+        selectedButton.setTextColor(ContextCompat.getColor(this, R.color.colorEnabled));
 
         photo.setImageBitmap(null);
         facesFound.setText("");
@@ -199,10 +200,6 @@ public class BitmapImageActivity extends AppCompatActivity {
         faceThreeScore.setVisibility(View.GONE);
         faceFourScore.setVisibility(View.GONE);
     }
-
-//    private void setSelected(Button button) {
-//        button.
-//    }
 
     // Get the image from the camera
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -228,12 +225,12 @@ public class BitmapImageActivity extends AppCompatActivity {
             Log.d("DAON", "  Centered: " + (face.getQuality().isFaceCentered() ? "Yes" : "No"));
             Log.d("DAON", "  Score: " + face.getScore());
 
-            String res = "";
+            StringBuilder res = new StringBuilder();
             Bundle all = face.getQuality().getBundle();
             for (String key : all.keySet()) {
-                res = res + key + " = " + all.get(key) + "\n  ";
+                res.append(key).append(" = ").append(all.get(key)).append("\n  ");
             }
-            //Log.d("DAON", "  Data: " + res);
+            Log.d("DAON", "  Data: " + res);
         }
     }
 
@@ -356,4 +353,15 @@ public class BitmapImageActivity extends AppCompatActivity {
         return true;
     }
 
+    private void showMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> finish());
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 }

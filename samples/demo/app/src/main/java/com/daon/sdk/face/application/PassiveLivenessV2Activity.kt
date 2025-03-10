@@ -10,9 +10,12 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.daon.sdk.face.*
+import com.daon.sdk.face.Config
+import com.daon.sdk.face.DaonFace
+import com.daon.sdk.face.LivenessResult
+import com.daon.sdk.face.Result
+import com.daon.sdk.face.YUV
 import com.daon.sdk.face.application.camera.CameraFragment
 import com.daon.sdk.face.application.camera.CameraFragmentFactory
 import com.daon.sdk.face.application.databinding.ActivityLivenessPassiveBinding
@@ -21,7 +24,7 @@ import kotlin.math.roundToInt
 
 // NOTE. This sample requires the Daon Face Liveness V2 library
 
-class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImageCallback {
+class PassiveLivenessV2Activity : EdgeToEdgeActivity(), CameraFragment.CameraImageCallback {
 
     private var fragment: CameraFragment? = null
     private var holdTimer: CountDownTimer? = null
@@ -40,7 +43,10 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
         layoutParams.screenBrightness = 1.0f
         window.attributes = layoutParams
 
-        binding.restartButton.setOnClickListener {
+        // settings are set to there default the first time the app runs (only)
+        UserPreferences.initialize(this, R.xml.settings_liveness);
+
+        binding.retryButton.setOnClickListener {
             showPreview()
             showMessage("")
 
@@ -50,8 +56,22 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
             daonFace.reset()
         }
 
-        // Daon Face SDK. Make sure to include the Daon Face Liveness V2 library.
-        daonFace = DaonFace(this, DaonFace.OPTION_LIVENESS_V2)
+        binding.settingsButton.setOnClickListener {
+            val intent = Intent(this, PassiveLivenessV2SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        try {
+            // Daon Face SDK. Make sure to include the Daon Face Liveness V2 library.
+            daonFace = DaonFace(this, DaonFace.OPTION_LIVENESS_V2)
+
+        } catch (e: Exception) {
+            showError(e.localizedMessage)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         val preferences = UserPreferences.instance()
 
@@ -59,16 +79,18 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
 
         // Passive Liveness V2 settings
         config.putInt(Config.LIVENESS_START_DELAY, preferences.getInteger("pref_delay", 0))
-        config.putInt(Config.LIVENESS_ANALYSIS_FRAME_COUNT, preferences.getInteger("pref_frames", 10))
-        config.putBoolean(Config.LIVENESS_TEMPLATE, preferences.getBoolean("pref_template", true))
+        config.putInt(
+            Config.LIVENESS_ANALYSIS_FRAME_COUNT,
+            preferences.getInteger("pref_frames", 10)
+        )
+        config.putBoolean(
+            Config.LIVENESS_TEMPLATE,
+            preferences.getBoolean("pref_template", true)
+        )
         config.putInt(Config.LIVENESS_TEMPLATE_QUALITY, 60)
         config.putBoolean(Config.LIVENESS_DEBUG, false)
-
         daonFace.configuration = config
-    }
 
-    override fun onResume() {
-        super.onResume()
         showPreview()
     }
 
@@ -91,7 +113,8 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
                 .commit()
         }
 
-        binding.restartButton.visibility = View.GONE
+        binding.retryButton.visibility = View.GONE
+        binding.settingsButton.visibility = View.GONE
     }
 
     private fun hidePreview() {
@@ -123,11 +146,9 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
                     showAlertMessage(getAlertMessage(alert))
             }
             .addStateChangedListener { _, state, _ ->
-
                 onAnalysisStateChanged(state)
             }
             .addEventDetectedListener { result, _, img ->
-
                 onLivenessEventDetected(result, img)
             }
     }
@@ -136,7 +157,8 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
 
         when (state) {
             LivenessResult.STATE_INIT -> {
-                binding.restartButton.visibility = View.GONE
+                binding.retryButton.visibility = View.GONE
+                binding.settingsButton.visibility = View.GONE
                 showMessage("Initializing")
             }
             LivenessResult.STATE_START -> {
@@ -153,7 +175,8 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
                 showMessage("Analyzing")
             }
             LivenessResult.STATE_DONE -> {
-                binding.restartButton.visibility = View.VISIBLE
+                binding.retryButton.visibility = View.VISIBLE
+                binding.settingsButton.visibility = View.VISIBLE
                 showMessage("Done")
 
             }
@@ -205,14 +228,12 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
 
     private fun showSevereAlertMessage(message: Int) {
         binding.moreInfoView.visibility = View.VISIBLE
-        binding.moreInfoView.setTextColor(Color.WHITE)
         binding.moreInfoView.setText(message)
     }
 
     private fun showAlertMessage(message: Int) {
         if (message > 0) {
             binding.infoView.visibility = View.VISIBLE
-            binding.infoView.setTextColor(Color.WHITE)
             binding.infoView.setText(message)
         } else {
             binding.infoView.visibility = View.GONE
@@ -232,7 +253,6 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
 
         val builder = AlertDialog.Builder(this)
         builder.setCancelable(false)
-        builder.setTitle(title)
         builder.setMessage(message)
 
         if (image != null) {
@@ -247,6 +267,18 @@ class PassiveLivenessV2Activity : AppCompatActivity(), CameraFragment.CameraImag
 
         val dialog = builder.create()
         dialog?.show()
+    }
+
+    private fun showError(message: String?) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage(message)
+        builder.setPositiveButton(R.string.ok) { _, _ -> finish() }
+
+        val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     private fun vibrate() {

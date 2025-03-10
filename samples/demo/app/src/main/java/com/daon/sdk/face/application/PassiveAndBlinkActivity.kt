@@ -12,16 +12,19 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.daon.sdk.face.*
+import com.daon.sdk.face.Config
+import com.daon.sdk.face.DaonFace
+import com.daon.sdk.face.LivenessResult
+import com.daon.sdk.face.Result
+import com.daon.sdk.face.YUV
 import com.daon.sdk.face.application.camera.CameraFragment
 import com.daon.sdk.face.application.camera.CameraFragmentFactory
 import com.daon.sdk.face.application.databinding.ActivityLivenessPassiveBlinkBinding
 import com.google.android.material.snackbar.Snackbar
 
 
-class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageCallback {
+class PassiveAndBlinkActivity : EdgeToEdgeActivity(), CameraFragment.CameraImageCallback {
 
     private var fragment: CameraFragment? = null
     private var dialog: AlertDialog? = null
@@ -39,7 +42,7 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
     private var sessionTimerStarted = false
 
     private lateinit var binding: ActivityLivenessPassiveBlinkBinding
-    private lateinit var daonFace: DaonFace
+    private var daonFace: DaonFace? = null
 
     private val lock = Any()
 
@@ -50,10 +53,14 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         val view = binding.root
         setContentView(view)
 
-        daonFace = DaonFace(this)
-
         // settings are set to there default the first time the app runs (only)
         UserPreferences.initialize(this, R.xml.settings_liveness_passive)
+
+        try {
+            daonFace = DaonFace(this)
+        } catch (e: Exception) {
+            showError(e.localizedMessage)
+        }
     }
 
     override fun onResume() {
@@ -65,7 +72,7 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         if (security in 1..5)
             config.putInt(Config.LIVENESS_SECURITY, security)
 
-        daonFace.configuration = config
+        daonFace?.configuration = config
 
         retry()
     }
@@ -79,7 +86,7 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
 
             dialog?.cancel()
 
-            daonFace.stop()
+            daonFace?.stop()
             removePreview()
         }
     }
@@ -89,7 +96,10 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         if (pause)
             return
 
-        daonFace.analyze(image)
+        if (daonFace == null)
+            return
+
+        daonFace!!.analyze(image)
             .addAnalysisListener { result, _ ->
 
                 // If we have been tracking a face and now don't, then reset
@@ -202,11 +212,11 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         return 0
     }
 
-    @Synchronized private fun showMessage(title: String, message: String) {
+    @Synchronized private fun showMessage(title: String, message: String?) {
         showMessage(title, message, null)
     }
 
-    @Synchronized private fun showMessage(title: String, message: String, image: YUV?) {
+    @Synchronized private fun showMessage(title: String, message: String?, image: YUV?) {
 
         pause = true
 
@@ -225,8 +235,8 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
 
             // Check for multiple faces.
             // Note. The SDK can only detect multiple faces when doing a single image analysis.
-            val res = daonFace.analyze(portrait)
-            if (!res.qualityResult.hasOneFaceOnly()) {
+            val res = daonFace?.analyze(portrait)
+            if (res != null && !res.qualityResult.hasOneFaceOnly()) {
                 builder.setMessage("$message\n\nMultiple faces!\n")
             }
 
@@ -245,6 +255,18 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         dialog?.show()
     }
 
+    private fun showError(message: String?) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage(message)
+        builder.setPositiveButton(R.string.ok) { _, _ -> finish() }
+
+        val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
     @Synchronized private fun reset() {
 
         pause = false
@@ -254,7 +276,7 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         updateLiveness(binding.blinkTextView, false)
         updateLiveness(binding.livenessTextView, false, spoof = false)
 
-        daonFace.reset()
+        daonFace?.reset()
     }
 
     private fun retry() {
@@ -275,8 +297,16 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         } else {
             getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         }
-        if (vibrator.hasVibrator())
-            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (vibrator.hasVibrator())
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(
+                        200,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
+        }
     }
 
     private fun updateLiveness(status: TextView?, enable: Boolean) {
@@ -288,33 +318,32 @@ class PassiveAndBlinkActivity : AppCompatActivity(), CameraFragment.CameraImageC
         when {
             enable -> {
                 status?.setTextColor(ContextCompat.getColor(this, R.color.colorEnabled))
-                status?.setBackgroundColor(Color.WHITE)
             }
             spoof -> {
                 status?.setTextColor(ContextCompat.getColor(this, R.color.yellow))
-                status?.setBackgroundColor(Color.BLACK)
             }
             else -> {
                 status?.setTextColor(Color.GRAY)
-                status?.setBackgroundColor(ContextCompat.getColor(this, R.color.colorBackground))
             }
         }
     }
 
     private fun updateTracking(res: Result) {
 
+        val okColor = ContextCompat.getColor(this, R.color.colorEnabled)
+
         // Update face tracker status
         when {
-            res.isTrackingFace -> binding.trackerStatusButton.setTextColor(Color.GREEN)
+            res.isTrackingFace -> binding.trackerStatusButton.setTextColor(okColor)
             res.livenessResult.trackerStatus == LivenessResult.TRACKER_FACE_REFINDING -> binding.trackerStatusButton.setTextColor(Color.YELLOW)
             else -> binding.trackerStatusButton.setTextColor(Color.RED)
         }
 
         // Update quality status
-        binding.qualityStatusButton.setTextColor(if (isQualityImage(res)) Color.GREEN else Color.RED)
-        binding.centeredStatusButton.setTextColor(if (res.qualityResult.isFaceCentered) Color.GREEN else Color.RED)
+        binding.qualityStatusButton.setTextColor(if (isQualityImage(res)) okColor else Color.RED)
+        binding.centeredStatusButton.setTextColor(if (res.qualityResult.isFaceCentered) okColor else Color.RED)
 
         // Update position
-        binding.positionStatusButton.setTextColor(if (res.isDeviceUpright) Color.GREEN else Color.RED)
+        binding.positionStatusButton.setTextColor(if (res.isDeviceUpright) okColor else Color.RED)
     }
 }

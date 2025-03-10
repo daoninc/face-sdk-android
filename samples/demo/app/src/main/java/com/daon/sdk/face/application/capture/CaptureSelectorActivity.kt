@@ -1,14 +1,15 @@
 package com.daon.sdk.face.application.capture
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.preference.PreferenceManager
 import android.widget.Button
 import android.widget.Switch
-import androidx.appcompat.app.AppCompatActivity
+import com.daon.sdk.face.application.EdgeToEdgeActivity
 import com.daon.sdk.face.application.R
 
-class CaptureSelectorActivity : AppCompatActivity(R.layout.activity_capture_selector) {
+class CaptureSelectorActivity : EdgeToEdgeActivity(R.layout.activity_capture_selector) {
     private var isPreviewEnabled: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {

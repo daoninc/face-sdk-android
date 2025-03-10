@@ -1,17 +1,17 @@
 package com.daon.sdk.face.application.matcher;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.daon.sdk.face.application.EdgeToEdgeActivity;
 import com.daon.sdk.face.application.R;
 import com.daon.sdk.face.application.UserPreferences;
 
 /**
  * Warnings and instructions
  */
-public class InstructionsActivity extends Activity {
+public class InstructionsActivity extends EdgeToEdgeActivity {
 
     public static final String SHOW_INSTRUCTIONS = "show.instructions";
 

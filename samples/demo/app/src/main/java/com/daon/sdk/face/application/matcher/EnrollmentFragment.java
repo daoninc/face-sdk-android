@@ -41,7 +41,7 @@ public class EnrollmentFragment extends CaptureFaceFragment {
             this.image = image;
             takePhoto();
         } else if (passive) {
-            setInfo(R.string.face_liveness_blink_not_detected, R.color.green);
+            setInfo(R.string.face_liveness_blink_not_detected, R.color.colorEnabled);
         }
     }
 

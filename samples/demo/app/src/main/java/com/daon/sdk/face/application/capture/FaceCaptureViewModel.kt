@@ -28,15 +28,24 @@ class FaceCaptureViewModel(
 
 
     val onStartButtonClickListener = OnClickListener {
-        cameraController.startCapture()
+        cameraController?.startCapture()
         state.value = State.Detecting
     }
 
-    private lateinit var cameraController: CameraController
+    private var cameraController: CameraController? = null
 
     fun createCameraController(context: Context, lifecycleOwner: LifecycleOwner, previewView: PreviewView? = null) {
 
         val builder = CameraController.Builder(context, lifecycleOwner)
+
+
+        // License.
+        //
+        // By default the license will be read from the file license.txt in the assets folder. However,
+        // the license string can also be passed to the face sdk constructor.
+//        val license =
+//            "{\"signature\":\"dWVBSGegPDsnVr6yN97\\/FKNRunGp0eCF2b+\\/UCEsbPAgKvEB34BqkZZ82MVptijn2CwCdMx2fZ0hY5eoVM13Zf8McwLr2B5pLHM0qrLCRjl8aO2BA+wXi1rILIsasJHzBmNyx8aBy62sF9yBooesYq36lDmNcZNGed1EkT1cYlCz\\/nMUxUvBaoW5RIzOJBe92591XchbSW5VUwZW2DHznelWkCL7ofVKC0+U0zlI685J3D21+zabN4FovxX8ZLa6ADHnyiF\\/oA97xNxaryczpev3R5g65RYvceA3v\\/Z0lu0+Jco4UVBP6Z+Ongru\\/FCp+ecvsUlw6Ccj+KzzO7RCEA==\",\"organization\":\"DAON\",\"signed\":{\"features\":[\"ALL\"],\"expiry\":\"2030-12-24 00:00:00\",\"applicationIdentifier\":\"com.daon.*\"},\"version\":\"2.1\"}"
+//        builder.setLicense(license)
 
         if (previewView != null)
             builder.setPreviewView(previewView)
@@ -131,28 +140,28 @@ class FaceCaptureViewModel(
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-        cameraController.openCamera()
+        cameraController?.openCamera()
         state.value = State.Idle
     }
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        cameraController.startPreview()
+        cameraController?.startPreview()
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
-        cameraController.stopPreview()
+        cameraController?.stopPreview()
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        cameraController.closeCamera()
+        cameraController?.closeCamera()
     }
 
     override fun onCleared() {
         super.onCleared()
-        cameraController.close()
+        cameraController?.close()
     }
 
     @Suppress("UNCHECKED_CAST")

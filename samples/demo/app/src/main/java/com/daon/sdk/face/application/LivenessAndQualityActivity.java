@@ -14,7 +14,7 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -43,7 +43,7 @@ import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Locale;
 
-public class LivenessAndQualityActivity extends AppCompatActivity {
+public class LivenessAndQualityActivity extends EdgeToEdgeActivity {
 
 	private static final int width = 640;
 	private static final int height = 480;
@@ -80,6 +80,7 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 	private Button positionStatusButton;
 	private Button centeredStatusButton;
 	private Button pauseButton;
+	private Button settingsButton;
 
 	private LinearLayout measuresLayout;
 
@@ -134,6 +135,13 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 			pauseButton.setText(paused ? "Continue" : "Pause");
 		});
 
+		settingsButton = findViewById(R.id.settingsButton);
+		if (settingsButton != null) {
+			settingsButton.setOnClickListener(v -> {
+				startActivityForResult(new Intent(this, LivenessAndQualitySettingsActivity.class), 1);
+			});
+		}
+		
 		// Create overlay to display quality measures
 		measuresLayout = new LinearLayout(this);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -170,14 +178,13 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 		try {
 			initializeSDK();
 		} catch (Exception e) {
-			showDialog("License Error", e.getMessage());
+			showMessage(e.getMessage());
 		}
 
 	}
 
 	private boolean checkPermissions() {
-
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+		if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSIONS);
             return false;
         }
@@ -192,26 +199,6 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 		if (requestCode == REQUEST_PERMISSIONS && state[0] == PackageManager.PERMISSION_GRANTED) {
 			startCameraPreview();
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		int id = item.getItemId();
-
-		if (id == R.id.action_settings) {
-			startActivityForResult(new Intent(this, LivenessAndQualitySettingsActivity.class), 1);
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -457,18 +444,20 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 
 	private void updateQualityResult(Result result) {
 
+		int okColor = ContextCompat.getColor(this, R.color.colorEnabled);
+
 		pauseButton.setText(paused ? "Continue" : "Pause");
 
 		qualityStatusButton.setTextColor(result.getQualityResult().hasAcceptableQuality()
-				? Color.GREEN
+				? okColor
 				: Color.RED);
 
 		centeredStatusButton.setTextColor(result.getQualityResult().isFaceCentered()
-				? Color.GREEN
+				? okColor
 				: Color.RED);
 
 		if (!paused)
-			positionStatusButton.setTextColor(result.isDeviceUpright() ? Color.GREEN : Color.RED);
+			positionStatusButton.setTextColor(result.isDeviceUpright() ? okColor : Color.RED);
 
 
 		if (result.getQualityResult().hasData() && showQualityMeasures) {
@@ -482,7 +471,7 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 	private void updateTrackerResult(final Result result) {
 
 		if (result.isTrackingFace())
-			trackerStatusButton.setTextColor(Color.GREEN);
+			trackerStatusButton.setTextColor(ContextCompat.getColor(this, R.color.colorEnabled));
 		else if (result.getLivenessResult().getTrackerStatus() == LivenessResult.TRACKER_FACE_REFINDING)
 			trackerStatusButton.setTextColor(Color.YELLOW);
 		else
@@ -496,22 +485,19 @@ public class LivenessAndQualityActivity extends AppCompatActivity {
 
 		if (status != null) {
 
-			status.setTextColor(getResources().getColor(R.color.colorEnabled));
-			status.setBackgroundColor(Color.WHITE);
+			status.setTextColor(ContextCompat.getColor(this, R.color.colorEnabled));
 
 			// Reset after one second
 			status.postDelayed(() -> {
 				status.setTextColor(Color.GRAY);
-				status.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 			}, 1000);
 		}
 	}
 
 
-	private void showDialog(String title, String message) {
+	private void showMessage(String message) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(title);
 
 		builder.setMessage(message);
 		builder.setPositiveButton(R.string.ok, (dialog, which) -> finish());

@@ -92,7 +92,7 @@
     <string name="photo_enroll">Enroll</string>
     <string name="photo_info">Please take your photo</string>
 
-    <string name="face_liveness_clr_start">Hold device upright and do not move</string>
+    <string name="face_liveness_clr_start">Hold device upright and do not move\n\nRemove glasses</string>
     <string name="face_liveness_clr_sequence">Don\'t move!</string>
 
     <string name="face_liveness_start">Looking for a face</string>

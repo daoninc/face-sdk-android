@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.widget.Button;
@@ -21,7 +21,7 @@ import com.daon.sdk.face.application.camera.CameraFragment;
 import com.daon.sdk.face.application.camera.CameraFragmentFactory;
 
 
-public class LightReflectionActivity extends AppCompatActivity implements CameraFragment.CameraImageCallback {
+public class LightReflectionActivity extends EdgeToEdgeActivity implements CameraFragment.CameraImageCallback {
 
     private TextView flashView;
 
@@ -73,8 +73,20 @@ public class LightReflectionActivity extends AppCompatActivity implements Camera
             //cfg.putString(Config.CLR_SEQUENCE_COLORS, "['wh', 'bk', 'yl', 'rd', 'mg', 'rd', 'bl', 'gr', 'yl', 'rd']");
             daonFace.setConfiguration(cfg);
         } catch (Exception e) {
-            Log.e("DAON", "Error initializing DaonFace", e);
+            showMessage(e.getMessage());
         }
+    }
+
+    private void showMessage(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> finish());
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     @Override
@@ -88,7 +100,8 @@ public class LightReflectionActivity extends AppCompatActivity implements Camera
     protected void onDestroy() {
         super.onDestroy();
 
-        daonFace.stop();
+        if (daonFace != null)
+            daonFace.stop();
         restoreBrightness();
     }
 
@@ -203,12 +216,14 @@ public class LightReflectionActivity extends AppCompatActivity implements Camera
             lastState = state;
         }
 
+        int colorEnabled = ContextCompat.getColor(this, R.color.colorEnabled);
+
         if (result.hasPositionData())
-            positionStatusButton.setTextColor(result.isDeviceUpright() ? Color.GREEN : Color.RED);
+            positionStatusButton.setTextColor(result.isDeviceUpright() ? colorEnabled : Color.RED);
 
         if (result.hasTrackingData()) {
             if (result.isTrackingFace())
-                trackerStatusButton.setTextColor(Color.GREEN);
+                trackerStatusButton.setTextColor(colorEnabled);
             else if (result.getLivenessResult().getTrackerStatus() == LivenessResult.TRACKER_FACE_REFINDING)
                 trackerStatusButton.setTextColor(Color.YELLOW);
             else

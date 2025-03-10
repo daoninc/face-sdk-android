@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import com.daon.sdk.face.BitmapTools
 import com.daon.sdk.face.DaonFace
 import com.daon.sdk.face.LivenessResult
@@ -19,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FaceCaptureActivity : AppCompatActivity(), CameraFragment.CameraImageCallback {
+class FaceCaptureActivity : EdgeToEdgeActivity(), CameraFragment.CameraImageCallback {
 
     private var fragment: CameraFragment? = null
     private lateinit var daonFace: DaonFace
@@ -38,9 +37,12 @@ class FaceCaptureActivity : AppCompatActivity(), CameraFragment.CameraImageCallb
 
         val options = if (liveness) DaonFace.OPTION_LIVENESS_V2 else DaonFace.OPTION_QUALITY or DaonFace.OPTION_DEVICE_POSITION
 
-        daonFace = DaonFace(this, options)
-
-        captureFace()
+        try {
+            daonFace = DaonFace(this, options)
+            captureFace()
+        } catch (e: Exception) {
+            showMessage(e.localizedMessage)
+        }
     }
 
     private fun captureFace() {
@@ -182,7 +184,7 @@ class FaceCaptureActivity : AppCompatActivity(), CameraFragment.CameraImageCallb
 
         val builder = AlertDialog.Builder(this)
         builder.setCancelable(false)
-        builder.setTitle("Face captured")
+        builder.setMessage("Face captured")
 
         val view = ImageView(this)
         view.setImageBitmap(image)
@@ -194,6 +196,18 @@ class FaceCaptureActivity : AppCompatActivity(), CameraFragment.CameraImageCallb
 
         val dialog = builder.create()
         dialog?.show()
+    }
+
+    private fun showMessage(message: String?) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage(message)
+        builder.setPositiveButton(R.string.ok) { _, _ -> finish() }
+
+        val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     override fun onResume() {
