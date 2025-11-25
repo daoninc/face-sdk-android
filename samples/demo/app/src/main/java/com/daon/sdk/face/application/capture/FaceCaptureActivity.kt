@@ -74,12 +74,13 @@ class FaceCaptureActivity : EdgeToEdgeActivity(R.layout.activity_capture) {
 
         viewModel.result.observe(this) { data ->
             data ?: return@observe
-            FileTools.write(this, "template.ifp", data)
+            FileTools.write(this, "template.iad", data)
             showPhoto("Template: ${data.size} bytes\nPhoto: ${bitmap?.width} x ${bitmap?.height}")
         }
 
         viewModel.photo.observe(this) { bitmap ->
             bitmap ?: return@observe
+            this.bitmap?.recycle()
             bitmap.let { this.bitmap = it }
         }
 
@@ -125,7 +126,7 @@ class FaceCaptureActivity : EdgeToEdgeActivity(R.layout.activity_capture) {
         sendIntent.type = "message/rfc822"
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Daon Face SDK: Photo Data")
 
-        val file = filesDir.absolutePath + "/template.ifp"
+        val file = filesDir.absolutePath + "/template.iad"
         val uri = FileProvider.getUriForFile(
             this,
             "com.daon.sdk.face.application.provider",

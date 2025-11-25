@@ -87,10 +87,24 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/feedbackTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:alpha="0.6"
+        android:padding="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/status"/>
+
     <FrameLayout
         android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/status"/>
+        app:layout_constraintTop_toBottomOf="@+id/feedbackTextView"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

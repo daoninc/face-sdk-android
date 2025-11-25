@@ -41,6 +41,9 @@ class PassiveAndBlinkActivity : EdgeToEdgeActivity(), CameraFragment.CameraImage
     private var sessionTimer: CountDownTimer? = null
     private var sessionTimerStarted = false
 
+    // Track the last quality feedback message to avoid duplicate Snackbars
+    private var lastQualityFeedback = 0
+
     private lateinit var binding: ActivityLivenessPassiveBlinkBinding
     private var daonFace: DaonFace? = null
 
@@ -113,8 +116,12 @@ class PassiveAndBlinkActivity : EdgeToEdgeActivity(), CameraFragment.CameraImage
                 trackingFace = result.isTrackingFace
 
                 val feedback = getQualityFeedback(result)
-                if (feedback > 0)
-                    Snackbar.make(findViewById(android.R.id.content), feedback, Snackbar.LENGTH_SHORT).show()
+                if (feedback > 0 && feedback != lastQualityFeedback) {
+                    binding.feedbackTextView.text = getString(feedback)
+                    lastQualityFeedback = feedback
+                } else if (feedback == 0) {
+                    lastQualityFeedback = 0
+                }
 
                 // Updated tracking, quality and position info.
                 updateTracking(result)
@@ -272,6 +279,7 @@ class PassiveAndBlinkActivity : EdgeToEdgeActivity(), CameraFragment.CameraImage
         pause = false
         trackingFace = false
         eventsDetected = 0
+        lastQualityFeedback = 0
 
         updateLiveness(binding.blinkTextView, false)
         updateLiveness(binding.livenessTextView, false, spoof = false)

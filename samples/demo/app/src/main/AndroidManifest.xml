@@ -154,7 +154,7 @@
 
         <activity
             android:name=".capture.StartFaceCaptureActivity"
-            android:label="IFP Capture"
+            android:label="IAD Capture"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -36,6 +36,8 @@ class FaceCaptureViewModel(
 
     fun createCameraController(context: Context, lifecycleOwner: LifecycleOwner, previewView: PreviewView? = null) {
 
+        cameraController?.close()
+
         val builder = CameraController.Builder(context, lifecycleOwner)
 
 
@@ -161,6 +163,7 @@ class FaceCaptureViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        photo.value?.recycle()
         cameraController?.close()
     }
 
